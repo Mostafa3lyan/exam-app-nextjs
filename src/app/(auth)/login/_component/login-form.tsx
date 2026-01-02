@@ -70,44 +70,6 @@ export function LoginForm() {
                 name="password"
               />
 
-              {/* <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-semibold">Password</FormLabel>
-
-                    <div className="relative">
-                      <FormControl>
-                        <Input
-                          className="pe-10 "
-                          type={showPassword ? "text" : "password"}
-                          placeholder="********"
-                          {...field}
-                        />
-                      </FormControl>
-
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        aria-label={
-                          showPassword ? "Show password" : "Hide password"
-                        }
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-input hover:text-gray-700"
-                      >
-                        {showPassword ? (
-                          <Eye size={18} />
-                        ) : (
-                          <EyeOff size={18} />
-                        )}
-                      </button>
-                    </div>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
-
               <div className="flex justify-end">
                 <Link
                   href="/forgot-password"

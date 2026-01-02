@@ -24,20 +24,18 @@ export default function AuthSidebarSidebar() {
   ];
 
   return (
-    <div className="container min-h-screen  bg-gradient-to-bl from-blue-200 via-white to-blue-200 p-12 flex flex-col justify-center items-center">
-      <div className="w-10/12">
+    <div className="container h-full min-h-screen  bg-gradient-to-bl from-blue-200 via-white to-blue-200 p-12 flex flex-col justify-center items-center">
+      <div className="w-10/12 h-full ">
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-32">
-          <div >
-            <FolderCode className=" text-white" color="#155DFC" />
-          </div>
+        <div className="flex items-center gap-3 mb-24">
+          <FolderCode className=" text-white" color="#155DFC" />
           <span className="text-xl font-semibold  text-primary">Exam App</span>
         </div>
         {/* Headline */}
         <p className="text-3xl w-11/12 line-clamp-2 font-bold text-gray-800 mb-16 font-inter">
           Empower your learning journey with our smart exam platform.
         </p>
-              
+
         {/* Features */}
         <div className="space-y-8">
           {features.map((feature, index) => {
@@ -50,9 +48,9 @@ export default function AuthSidebarSidebar() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-blue-600 mb-2">
+                  <p className="text-xl font-bold text-blue-600 mb-2">
                     {feature.title}
-                  </h3>
+                  </p>
                   <p className="text-gray-600">{feature.description}</p>
                 </div>
               </div>

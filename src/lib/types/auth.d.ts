@@ -2,6 +2,9 @@ export interface LogainResponse  {
     token: string;
     user: myUser;
 }
+export interface RegisterResponse {
+    user: myUser;
+}
 
 export interface myUser {
     _id: string;
@@ -18,4 +21,13 @@ export interface myUser {
 export interface LoginFields  {
     email: string;
     password: string;
+}
+export interface RegisterFields {
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+    rePassword: string;
 }

@@ -8,7 +8,15 @@ const config: Config = {
 		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
-    	extend: {
+		extend: {
+			height: {
+				'128': '32rem',   // h-128 → 512px
+				'144': '36rem',   // h-144 → 576px
+				'160': '40rem',   // h-160 → 640px
+				'192': '48rem',   // h-192 → 768px
+				'screen-75': '75vh', // h-screen-75 → 75% of viewport height
+				'screen-90': '90vh', // h-screen-90 → 90% of viewport height
+			},
     		colors: {
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
