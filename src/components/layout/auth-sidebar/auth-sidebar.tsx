@@ -31,12 +31,12 @@ export default function AuthSidebarSidebar() {
           <div >
             <FolderCode className=" text-white" color="#155DFC" />
           </div>
-          <h1 className="text-xl font-semibold  text-primary">Exam App</h1>
+          <span className="text-xl font-semibold  text-primary">Exam App</span>
         </div>
         {/* Headline */}
-        <h2 className="text-3xl w-11/12 line-clamp-2 font-bold text-gray-800 mb-16 font-inter">
+        <p className="text-3xl w-11/12 line-clamp-2 font-bold text-gray-800 mb-16 font-inter">
           Empower your learning journey with our smart exam platform.
-        </h2>
+        </p>
               
         {/* Features */}
         <div className="space-y-8">
