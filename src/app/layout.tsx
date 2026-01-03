@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Inter, } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/sonner";
 
 
 const geistMono = localFont({
@@ -32,7 +33,8 @@ export default function RootLayout({
         className={`${geistMono.className}  ${inter.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-        {children}
+          {children}
+          <Toaster position="top-right" />
         </Providers>
       </body>
     </html>
