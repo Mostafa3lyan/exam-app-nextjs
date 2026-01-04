@@ -25,15 +25,7 @@ import { useForm } from "react-hook-form";
 import CreateYours from "../../login/_component/create-yours";
 import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
-
-export type ForgotPasswordFields = {
-  email: string;
-};
-export type ForgotPasswordProps = {
-  email?: string
-  onSuccess: (email: string) => void
-  onBack?: () => void
-}
+import { ForgotPasswordFields, ForgotPasswordProps } from "@/lib/types/auth";
 
 
 export default function ForgotPassword({

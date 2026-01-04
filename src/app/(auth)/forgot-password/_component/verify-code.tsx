@@ -25,10 +25,11 @@ import CreateYours from "../../login/_component/create-yours";
 import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
 import { useResendTimer } from "../_hooks/use-resend-timer";
-import { useVerifyCode, VerifyResetFields } from "../_hooks/use-verify-code";
+import { useVerifyCode } from "../_hooks/use-verify-code";
 import { ForgotPasswordProps } from "./forgot-password-form";
 import { MoveLeft } from "lucide-react";
 import { toast } from "sonner";
+import { VerifyResetFields } from "@/lib/types/auth";
 
 
 

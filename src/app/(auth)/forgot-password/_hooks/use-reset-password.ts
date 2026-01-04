@@ -1,22 +1,21 @@
-import { VerifyResetFields } from "@/lib/types/auth";
+import { ResetPasswordData } from "@/lib/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { verifyAction } from "../_actions/verify.action";
+import { resetAction } from "../_actions/reset.action";
 
 
-export function useVerifyCode() {
+export function useResetPassword() {
     const { isPending, error, mutate } = useMutation({
-        mutationFn: async (data: VerifyResetFields) => {
-            return await verifyAction(data);
+        mutationFn: async (data: ResetPasswordData) => {
+            return resetAction(data);
         },
-
         onError: (error: Error) => {
             toast.error(error.message);
         },
     });
 
     return {
-        verifyResetCode: mutate,
+        resetPassword: mutate,
         isPending,
         error,
     };

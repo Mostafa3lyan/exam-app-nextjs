@@ -1,26 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { ForgotPasswordFields } from "../_component/forgot-password-form";
 import { toast } from "sonner";
+import { forgotAction } from "../_actions/forgot.action";
+import { ForgotPasswordFields } from "@/lib/types/auth";
 
 
 export function useForgotPassword() {
     const { isPending, error, isSuccess, mutate } = useMutation({
         mutationFn: async (data: ForgotPasswordFields) => {
-            const res = await fetch(`https://exam.elevateegy.com/api/v1/auth/forgotPassword`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-
-            const payload = await res.json();
-
-            if (!res.ok) {
-                throw new Error(payload.message || "Something went wrong");
-            }
-
-            return payload;
+            return await forgotAction(data);
         },
-
         onError: (error: Error) => {
             toast.error(error.message);
         },
