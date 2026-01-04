@@ -1,6 +1,5 @@
 "use client";
 
-import { cn } from "@/lib/shadcn/utils";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -18,33 +16,48 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { MoveRight, CircleCheck, CircleX } from "lucide-react";
-import Link from "next/link";
-import { useForgotPassword } from "../_hooks/use-forgot-password";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 import { ForgotPasswordSchema } from "@/lib/schemas/forgot-password.schema";
+import { cn } from "@/lib/shadcn/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { MoveRight } from "lucide-react";
+import { useForm } from "react-hook-form";
+import CreateYours from "../../login/_component/create-yours";
+import ErrorComponent from "../../login/_component/error-component";
+import { useForgotPassword } from "../_hooks/use-forgot-password";
 
 export type ForgotPasswordFields = {
   email: string;
 };
+export type ForgotPasswordProps = {
+  email?: string
+  onSuccess: (email: string) => void
+  onBack?: () => void
+}
+
 
 export default function ForgotPassword({
+  email,
+  onSuccess,
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const { isPending, isSuccess, error, sendResetEmail } =
+}: ForgotPasswordProps & React.ComponentPropsWithoutRef<"div">) {
+  const { isPending, error, sendResetEmail } =
     useForgotPassword();
 
   const form = useForm<ForgotPasswordFields>({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
-      email: "",
+      email: email ?? "",
     },
   });
 
   const onSubmit = (values: ForgotPasswordFields) => {
-    sendResetEmail(values);
+    sendResetEmail(values, {
+      onSuccess: () => {
+        onSuccess(values.email)
+      },
+    });
   };
 
   return (
@@ -57,26 +70,11 @@ export default function ForgotPassword({
                 Forget Password
               </CardTitle>
               <CardDescription>
-                Don’t worry, we will help you recover your account.
+                Don&apos;t worry, we will help you recover your account.
               </CardDescription>
             </CardHeader>
 
             <CardContent>
-              {isSuccess ? (
-                /* SUCCESS */
-                <div className="flex flex-col items-center gap-3 text-center">
-                  <CircleCheck className="size-10 text-green-600" />
-                  <p className="text-sm text-muted-foreground">
-                    If this email exists, a reset link has been sent.
-                  </p>
-                  <Link
-                    href="/login"
-                    className="text-primary underline text-sm"
-                  >
-                    Back to login
-                  </Link>
-                </div>
-              ) : (
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -102,14 +100,7 @@ export default function ForgotPassword({
                     />
 
                     {/* API ERROR */}
-                    {error && (
-                      <div className="relative rounded-md border border-destructive bg-destructive/10 p-3">
-                        <CircleX className="absolute -top-2 left-1/2 size-5 -translate-x-1/2 rounded-full bg-background text-destructive" />
-                        <p className="text-center text-sm text-destructive">
-                          {error.message}
-                        </p>
-                      </div>
-                    )}
+                  <ErrorComponent error={error as Error} />
 
                     {/* SUBMIT */}
                     <Button
@@ -125,15 +116,10 @@ export default function ForgotPassword({
                       <MoveRight />
                     </Button>
 
-                    <span className="flex justify-center text-sm text-muted-foreground">
-                      Already have an account?
-                      <Link className="px-1 text-primary" href="/login">
-                        Login
-                      </Link>
-                    </span>
+                  <CreateYours />
+
                   </form>
                 </Form>
-              )}
             </CardContent>
           </Card>
         </div>

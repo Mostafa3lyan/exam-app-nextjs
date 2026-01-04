@@ -5,4 +5,9 @@ export const ForgotPasswordSchema = z.object({
 });
 
 
+export const VerifyCodeSchema = z.object({
+    resetCode: z.string().min(6, "please enter a valid OTP"),
+});
+
 export type ForgotPasswordSchemaType = z.infer<typeof ForgotPasswordSchema>;
+export type VerifyCodeSchemaType = z.infer<typeof VerifyCodeSchema>;

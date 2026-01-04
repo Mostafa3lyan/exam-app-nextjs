@@ -1,8 +1,8 @@
 import React from 'react'
-import ResetPassword from './_component/reset-password'
+import ResetPasswordFlow from './_component/forgot-password-flow'
 
 export default function Page() {
   return (
-      <ResetPassword/>
+    <ResetPasswordFlow/>
   )
 }

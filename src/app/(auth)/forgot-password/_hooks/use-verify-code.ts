@@ -1,12 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-import { ForgotPasswordFields } from "../_component/forgot-password-form";
 import { toast } from "sonner";
 
+export type VerifyResetFields = {
+    resetCode: string;
+};
 
-export function useForgotPassword() {
-    const { isPending, error, isSuccess, mutate } = useMutation({
-        mutationFn: async (data: ForgotPasswordFields) => {
-            const res = await fetch(`https://exam.elevateegy.com/api/v1/auth/forgotPassword`, {
+export function useVerifyCode() {
+    const { isPending, error, mutate } = useMutation({
+        mutationFn: async (data: VerifyResetFields) => {
+            const res = await fetch(`https://exam.elevateegy.com/api/v1/auth/verifyResetCode`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -20,6 +22,9 @@ export function useForgotPassword() {
 
             return payload;
         },
+        onSuccess: () => {
+            toast.success("Code verified. You may now reset your password.");
+        },
 
         onError: (error: Error) => {
             toast.error(error.message);
@@ -27,9 +32,8 @@ export function useForgotPassword() {
     });
 
     return {
-        sendResetEmail: mutate,
+        verifyResetCode: mutate,
         isPending,
         error,
-        isSuccess,
     };
 }

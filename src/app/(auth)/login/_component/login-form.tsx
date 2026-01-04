@@ -17,8 +17,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLogin } from "../_hooks/use-login";
+import CreateYours from "./create-yours";
+import ErrorComponent from "./error-component";
 import { PasswordInput } from "./password-input";
-import { CircleX } from "lucide-react";
 
 export function LoginForm() {
   const { isPending, error, login } = useLogin();
@@ -79,14 +80,7 @@ export function LoginForm() {
                 </Link>
               </div>
 
-              {error && (
-                <div className="p-2 bg-destructive/10 border border-destructive relative ">
-                  <CircleX className="text-destructive bg-white absolute rounded-full size-5 top-0 left-1/2 -translate-y-1/2" />
-                  <p className="text-sm text-destructive text-center">
-                    {error.message || "Something went wrong"}
-                  </p>
-                </div>
-              )}
+              <ErrorComponent error={error as Error} />
 
               <Button
                 type="submit"
@@ -98,13 +92,7 @@ export function LoginForm() {
               >
                 Login
               </Button>
-              <span className="text-muted-foreground text-sm flex justify-center">
-                Don’t have an account?{" "}
-                <Link className="text-primary px-1" href="/register">
-                  {" "}
-                  Create yours
-                </Link>
-              </span>
+              <CreateYours />
             </form>
           </Form>
         </CardContent>
