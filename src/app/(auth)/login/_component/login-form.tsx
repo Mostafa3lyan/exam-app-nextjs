@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLogin } from "../_hooks/use-login";
-import CreateYours from "./create-yours";
+import CreateOrLogin from "./create-login";
 import ErrorComponent from "./error-component";
 import { PasswordInput } from "./password-input";
 
@@ -92,7 +92,11 @@ export function LoginForm() {
               >
                 Login
               </Button>
-              <CreateYours />
+              <CreateOrLogin
+                head={"Don't have an account?"}
+                link={"/register"}
+                tail={"Create yours"}
+              />
             </form>
           </Form>
         </CardContent>

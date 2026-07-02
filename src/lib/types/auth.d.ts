@@ -1,4 +1,4 @@
-export interface LogainResponse  {
+export interface LoginResponse  {
     token: string;
     user: myUser;
 }
@@ -32,6 +32,9 @@ export interface RegisterFields {
     rePassword: string;
 }
 
+export type EmailField = {
+    email: string;
+};
 
 export type ForgotPasswordFields = {
     email: string;

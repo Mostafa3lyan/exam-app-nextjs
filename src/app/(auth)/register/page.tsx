@@ -1,6 +1,5 @@
-import React from 'react'
-import { RegisterForm } from './_component/register-form';
+import RegisterFlow from './_component/register-flow';
 
 export default function register() {
-  return <RegisterForm/>;
+  return <RegisterFlow/>;
 }

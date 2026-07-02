@@ -1,4 +1,4 @@
-import { RegisterFields, RegisterResponse } from "../types/auth";
+import { RegisterFields, RegisterResponse } from "../../../../lib/types/auth";
 
 export async function registerAction(fields: RegisterFields) {
     const res = await fetch(`https://exam.elevateegy.com/api/v1/auth/signup`, {

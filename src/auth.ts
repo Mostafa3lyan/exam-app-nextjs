@@ -1,6 +1,6 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import type { LogainResponse } from "./lib/types/auth";
+import type { LoginResponse } from "./lib/types/auth";
 
 export const authOptions: NextAuthOptions = {
     pages: {
@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
                     }),
                 });
 
-                const payload: ApiResponse<LogainResponse> = await res.json();
+                const payload: ApiResponse<LoginResponse> = await res.json();
                 if ("code" in payload) {
                     throw new Error(payload.message);
                 }

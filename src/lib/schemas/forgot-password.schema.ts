@@ -1,5 +1,8 @@
 import z from "zod";
 
+export const EmailSchema = z.object({
+    email: z.email("Please enter a valid email address"),
+});
 export const ForgotPasswordSchema = z.object({
     email: z.email("Please enter a valid email address"),
 });

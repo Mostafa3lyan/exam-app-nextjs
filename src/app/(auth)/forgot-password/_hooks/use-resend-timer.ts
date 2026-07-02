@@ -1,98 +1,60 @@
-import { useEffect, useState, useCallback } from "react";
+'use client';
 
-const STORAGE_KEY = "otp-resend-end-time";
+import { useEffect, useState, useCallback } from 'react';
 
-export function useResendTimer(duration = 60) {
+const STORAGE_KEY = 'otp_expires_at';
+const OTP_DURATION = 30; // seconds
+
+export function useResendTimer() {
     const [timeLeft, setTimeLeft] = useState(0);
-    const [canResend, setCanResend] = useState(true);
 
-    // Calculate remaining time from storage
-    const calculateTimeLeft = useCallback(() => {
-        const endTime = sessionStorage.getItem(STORAGE_KEY);
+    const readExpiresAt = () => {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const value = Number(raw);
+        return Number.isNaN(value) ? null : value;
+    };
 
-        if (!endTime) {
-            return 0;
-        }
-
-        const remaining = Math.floor((Number(endTime) - Date.now()) / 1000);
-        return Math.max(0, remaining);
+    const startTimer = useCallback(() => {
+        const expiresAt = Date.now() + OTP_DURATION * 1000;
+        localStorage.setItem(STORAGE_KEY, String(expiresAt));
+        setTimeLeft(OTP_DURATION);
     }, []);
 
-    // Initialize and sync timer state
+    const clearTimer = useCallback(() => {
+        localStorage.removeItem(STORAGE_KEY);
+        setTimeLeft(0);
+    }, []);
+
     useEffect(() => {
-        const remaining = calculateTimeLeft();
+        const tick = () => {
+            const expiresAt = readExpiresAt();
 
-        if (remaining > 0) {
-            setTimeLeft(remaining);
-            setCanResend(false);
-        } else {
-            sessionStorage.removeItem(STORAGE_KEY);
-            setTimeLeft(0);
-            setCanResend(true);
-        }
-    }, [calculateTimeLeft]);
-
-    // Handle countdown interval
-    useEffect(() => {
-        if (timeLeft <= 0) {
-            return;
-        }
-
-        const interval = setInterval(() => {
-            const remaining = calculateTimeLeft();
-
-            if (remaining <= 0) {
-                sessionStorage.removeItem(STORAGE_KEY);
+            if (!expiresAt) {
                 setTimeLeft(0);
-                setCanResend(true);
-                clearInterval(interval);
-            } else {
-                setTimeLeft(remaining);
+                return;
             }
-        }, 1000);
 
-        return () => clearInterval(interval);
-    }, [timeLeft, calculateTimeLeft]);
+            const diff = Math.max(0, expiresAt - Date.now());
+            const seconds = Math.ceil(diff / 1000);
 
-    // Sync across tabs/windows
-    useEffect(() => {
-        const handleStorageChange = (e: StorageEvent) => {
-            if (e.key === STORAGE_KEY) {
-                const remaining = calculateTimeLeft();
+            setTimeLeft(seconds);
 
-                if (remaining > 0) {
-                    setTimeLeft(remaining);
-                    setCanResend(false);
-                } else {
-                    setTimeLeft(0);
-                    setCanResend(true);
-                }
+            if (seconds === 0) {
+                localStorage.removeItem(STORAGE_KEY);
             }
         };
 
-        window.addEventListener("storage", handleStorageChange);
-        return () => window.removeEventListener("storage", handleStorageChange);
-    }, [calculateTimeLeft]);
+        tick(); // sync immediately
+        const interval = setInterval(tick, 1000);
 
-    // Start the timer
-    const startTimer = useCallback(() => {
-        const endTime = Date.now() + duration * 1000;
-        sessionStorage.setItem(STORAGE_KEY, endTime.toString());
-        setTimeLeft(duration);
-        setCanResend(false);
-    }, [duration]);
-
-    // Reset the timer
-    const resetTimer = useCallback(() => {
-        sessionStorage.removeItem(STORAGE_KEY);
-        setTimeLeft(0);
-        setCanResend(true);
+        return () => clearInterval(interval);
     }, []);
 
     return {
         timeLeft,
-        canResend,
+        canResend: timeLeft === 0,
         startTimer,
-        resetTimer,
+        clearTimer,
     };
 }

@@ -19,13 +19,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { ForgotPasswordSchema } from "@/lib/schemas/forgot-password.schema";
 import { cn } from "@/lib/shadcn/utils";
+import { ForgotPasswordFields, ForgotPasswordProps } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MoveRight } from "lucide-react";
 import { useForm } from "react-hook-form";
-import CreateYours from "../../login/_component/create-yours";
+import CreateOrLogin from "../../login/_component/create-login";
 import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
-import { ForgotPasswordFields, ForgotPasswordProps } from "@/lib/types/auth";
 
 
 export default function ForgotPassword({
@@ -34,8 +34,8 @@ export default function ForgotPassword({
   className,
   ...props
 }: ForgotPasswordProps & React.ComponentPropsWithoutRef<"div">) {
-  const { isPending, error, sendResetEmail } =
-    useForgotPassword();
+
+  const { isPending, error, sendResetEmail } = useForgotPassword();
 
   const form = useForm<ForgotPasswordFields>({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -108,7 +108,7 @@ export default function ForgotPassword({
                       <MoveRight />
                     </Button>
 
-                  <CreateYours />
+                  <CreateOrLogin head="Don't have an account?" link="/register" tail="Sign up" />
 
                   </form>
                 </Form>

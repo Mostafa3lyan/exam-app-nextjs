@@ -22,9 +22,9 @@ export function MainSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar>
-<SidebarContent className="bg-blue-50 flex flex-col h-full">
-  <SidebarGroup className="flex flex-col flex-1">
+    <Sidebar className="border-none">
+<SidebarContent className="bg-blue-50  flex flex-col h-full">
+  <SidebarGroup className="flex  flex-col flex-1">
     <SidebarGroupLabel className="flex my-10">
       <Image
         src="/Logo.svg"
@@ -40,10 +40,10 @@ export function MainSidebar() {
         <SidebarMenuItem>
           <SidebarMenuButton
             asChild
-            isActive
+                  isActive={pathname === "/"}
             className="w-10/12 data-[active=true]:border data-[active=true]:rounded-none hover:rounded-none"
           >
-            <Link href="/diploma" className="flex items-center gap-2">
+                  <Link href="/" className="text-muted-foreground flex items-center gap-2">
               <GraduationCap /> Diplomas
             </Link>
           </SidebarMenuButton>
@@ -52,11 +52,11 @@ export function MainSidebar() {
         <SidebarMenuItem>
           <SidebarMenuButton
             asChild
-            isActive={pathname === "/account"}
+            isActive={pathname === "/account-settings"}
             className="w-10/12 data-[active=true]:border data-[active=true]:rounded-none hover:rounded-none"
           >
-            <Link href="/account" className="flex items-center gap-2">
-              <UserRound /> Account Settings
+                  <Link href="/account-settings" className="text-muted-foreground flex items-center gap-2">
+                    <UserRound /> Account Settings
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

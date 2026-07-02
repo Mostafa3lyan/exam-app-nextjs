@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/form";
 import { ResetPasswordSchema } from "@/lib/schemas/forgot-password.schema";
 import { cn } from "@/lib/shadcn/utils";
-import { ForgotPasswordProps, ResetPasswordFields } from "@/lib/types/auth";
+import { ResetPasswordFields } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import CreateYours from "../../login/_component/create-yours";
+import CreateYours from "../../login/_component/create-login";
 import ErrorComponent from "../../login/_component/error-component";
 import { PasswordInput } from "../../login/_component/password-input";
 import { useResetPassword } from "../_hooks/use-reset-password";
@@ -27,7 +27,7 @@ export default function ResetPassword({
     email,
     className,
     ...props
-}: ForgotPasswordProps & React.ComponentPropsWithoutRef<"div">) {
+}: { email: string } & React.ComponentPropsWithoutRef<"div">) {
 
     const { isPending, error, resetPassword } = useResetPassword();
     const form = useForm<ResetPasswordFields>({
