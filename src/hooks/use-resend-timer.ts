@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
 const STORAGE_KEY = 'otp_expires_at';
-const OTP_DURATION = 30; // seconds
+const OTP_DURATION = 60; // seconds
 
 export function useResendTimer() {
     const [timeLeft, setTimeLeft] = useState(0);

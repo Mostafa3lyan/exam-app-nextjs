@@ -1,9 +1,9 @@
 import { JSON_HEADER } from "@/lib/constants/api.constant";
-import { RegisterFields } from "@/lib/types/auth";
+import { EmailOtpFields } from "@/lib/types/auth";
 
-export async function registerAction(data: RegisterFields) {
+export async function confirmRegisterOtpAction(data: EmailOtpFields) {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API}/auth/register`,
+        `${process.env.NEXT_PUBLIC_API}/auth/confirm-email-verification`,
         {
             method: "POST",
             ...JSON_HEADER,
@@ -14,7 +14,7 @@ export async function registerAction(data: RegisterFields) {
     const payload = await res.json();
 
     if (!res.ok) {
-        throw new Error(payload?.message ?? "Failed to register");
+        throw new Error(payload?.message ?? "Failed to confirm OTP");
     }
 
     return payload;

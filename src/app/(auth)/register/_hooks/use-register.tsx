@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 
 export function useRegister() {
       // Navigation
-    const router = useRouter();
+  const router = useRouter();
+  
   const { isPending, error, mutate } = useMutation({
     mutationFn: async (data: RegisterFields) => {
       return await registerAction(data);

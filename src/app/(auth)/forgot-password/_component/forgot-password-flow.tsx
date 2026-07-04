@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { useResendTimer } from "../_hooks/use-resend-timer";
+import { useResendTimer } from "../../../../hooks/use-resend-timer";
 import ForgotPassword from "./forgot-password-form";
 import ResetPassword from "./reset-password";
 import VerifyCode from "./verify-code";

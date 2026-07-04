@@ -29,15 +29,16 @@ export interface RegisterFields {
     email: string;
     phone: string;
     password: string;
-    rePassword: string;
+    confirmPassword: string;
 }
 
 export type EmailField = {
     email: string;
 };
 
-export type ForgotPasswordFields = {
+export type EmailOtpFields = {
     email: string;
+    code: string;
 };
 export type ForgotPasswordProps = {
     email?: string

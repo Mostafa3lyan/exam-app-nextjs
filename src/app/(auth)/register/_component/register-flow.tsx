@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import RegisterEmail from "./register-email";
+import ConfirmRegisterOtp from "./confirm-register-otp";
+import { RegisterForm } from "./register-form";
 
 export type RegisterSteps = "email" | "otp" | "register";
 
@@ -15,26 +17,18 @@ export default function RegisterFlow() {
     <>
       {step === "email" && (
         <RegisterEmail
+          setStep={setStep}
+        />
+      )
+      }
 
+      {step === "otp" && (
+        <ConfirmRegisterOtp
+                    setStep={setStep}
         />
       )}
 
-      {/* {step === "otp" && (
-        <VerifyCode
-          email={email}
-          onBack={() => {
-            setStep("email");
-          }}
-          onSuccess={() => {
-            toast.success(
-              "Code verified. You may now reset your password."
-            );
-            setStep("reset");
-          }}
-        />
-      )}
-
-      {step === "reset" && <ResetPassword email={email} />} */}
+      {step === "register" && <RegisterForm/>}
     </>
   );
 }

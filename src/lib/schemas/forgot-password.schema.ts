@@ -9,7 +9,8 @@ export const ForgotPasswordSchema = z.object({
 
 
 export const VerifyCodeSchema = z.object({
-    resetCode: z.string().min(6, "please enter a valid OTP"),
+    code: z.string().min(6, "please enter a valid OTP"),
+    email: z.email("Please enter a valid email address"),
 });
 
 export const ResetPasswordSchema = z.object({

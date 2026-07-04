@@ -31,7 +31,7 @@ import { toast } from "sonner";
 import CreateYours from "../../login/_component/create-login";
 import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
-import { useResendTimer } from "../_hooks/use-resend-timer";
+import { useResendTimer } from "../../../../hooks/use-resend-timer";
 import { useVerifyCode } from "../_hooks/use-verify-code";
 
 export default function VerifyCode({

@@ -18,8 +18,8 @@ import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLogin } from "../_hooks/use-login";
 import CreateOrLogin from "./create-login";
-import ErrorComponent from "./error-component";
 import { PasswordInput } from "./password-input";
+import ErrorComponent from "@/components/shared/error-component";
 
 export function LoginForm() {
   const { isPending, error, login } = useLogin();
@@ -80,7 +80,8 @@ export function LoginForm() {
                 </Link>
               </div>
 
-              <ErrorComponent error={error as Error} />
+              {error &&<ErrorComponent errorMessage={error?.message} />
+              }
 
               <Button
                 type="submit"

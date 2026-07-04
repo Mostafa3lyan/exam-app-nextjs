@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { MoveRight } from "lucide-react";
-import ErrorComponent from "@/app/(auth)/login/_component/error-component";
+import ErrorComponent from "./error-component";
 
 interface EmailFormProps {
   title: string;
@@ -60,6 +60,7 @@ export default function EmailForm({
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input
+                          autoFocus
                           placeholder="m@example.com"
                           autoComplete="email"
                           {...field}
@@ -70,7 +71,8 @@ export default function EmailForm({
                   )}
                 />
 
-                {error && <ErrorComponent error={error} />}
+                {error && <ErrorComponent errorMessage={error?.message} />
+                }
 
                 <Button
                   type="submit"
