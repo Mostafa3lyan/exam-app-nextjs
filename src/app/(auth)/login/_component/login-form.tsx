@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useLogin } from "../_hooks/use-login";
-import CreateOrLogin from "./create-login";
+import CreateOrLogin from "../../../../components/shared/create-login";
 import { PasswordInput } from "./password-input";
 import ErrorComponent from "@/components/shared/error-component";
 
@@ -27,7 +27,7 @@ export function LoginForm() {
   const form = useForm<LoginFields>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
   });
@@ -47,7 +47,7 @@ export function LoginForm() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* email */}
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
@@ -63,8 +63,21 @@ export function LoginForm() {
                     <FormMessage />
                   </FormItem>
                 )}
+              /> */}
+              {/* Username */}
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold">Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="mostafa123" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-
               {/* password */}
               <PasswordInput<LoginFields>
                 control={form.control}
@@ -80,9 +93,7 @@ export function LoginForm() {
                 </Link>
               </div>
 
-              {error &&<ErrorComponent errorMessage={error?.message} />
-              }
-
+              <ErrorComponent errorMessage={error?.message} />
               <Button
                 type="submit"
                 className="w-full"

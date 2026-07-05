@@ -16,7 +16,7 @@ import { cn } from "@/lib/shadcn/utils";
 import { ResetPasswordFields } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import CreateYours from "../../login/_component/create-login";
+import CreateYours from "../../../../components/shared/create-login";
 import ErrorComponent from "../../login/_component/error-component";
 import { PasswordInput } from "../../login/_component/password-input";
 import { useResetPassword } from "../_hooks/use-reset-password";

@@ -28,7 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { MoveLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import CreateYours from "../../login/_component/create-login";
+import CreateYours from "../../../../components/shared/create-login";
 import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
 import { useResendTimer } from "../../../../hooks/use-resend-timer";

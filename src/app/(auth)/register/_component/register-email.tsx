@@ -7,7 +7,7 @@ import { EmailSchema } from "@/lib/schemas/forgot-password.schema";
 import { EmailField } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import CreateOrLogin from "../../login/_component/create-login";
+import CreateOrLogin from "../../../../components/shared/create-login";
 import { useSendRegisterOtp } from "../_hooks/use-register-otp";
 import { RegisterSteps } from "./register-flow";
 

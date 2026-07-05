@@ -20,7 +20,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import ErrorComponent from "@/components/shared/error-component";
 import { PhoneInput } from "@/components/ui/phone-input";
-import CreateOrLogin from "../../login/_component/create-login";
+import CreateOrLogin from "../../../../components/shared/create-login";
 import { PasswordInput } from "../../login/_component/password-input";
 import { useRegister } from "../_hooks/use-register";
 import { useEmail } from "@/context/email-context";

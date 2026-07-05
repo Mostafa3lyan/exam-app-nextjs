@@ -23,7 +23,7 @@ import { ForgotPasswordFields, ForgotPasswordProps } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MoveRight } from "lucide-react";
 import { useForm } from "react-hook-form";
-import CreateOrLogin from "../../login/_component/create-login";
+import CreateOrLogin from "../../../../components/shared/create-login";
 import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
 

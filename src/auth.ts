@@ -1,18 +1,19 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import type { LoginResponse } from "./lib/types/auth";
 
 export const authOptions: NextAuthOptions = {
+    debug: true,
+    secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/login",
         signOut: "/login",
-        error:"/login"
+        error: "/login"
     },
     providers: [
         Credentials({
             name: "Credentials",
             credentials: {
-                email: { label: "Email", type: "text" },
+                username: { label: "username", type: "text" },
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
@@ -20,18 +21,19 @@ export const authOptions: NextAuthOptions = {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        email: credentials?.email,
+                        username: credentials?.username,
                         password: credentials?.password,
                     }),
                 });
 
-                const payload: ApiResponse<LoginResponse> = await res.json();
-                if ("code" in payload) {
-                    throw new Error(payload.message);
+                const { payload } = await res.json();
+
+                if (!res.ok) {
+                    throw new Error(payload.message || "Login failed");
                 }
 
                 return {
-                    id: payload.user._id,
+                    id: payload.user.id,
                     accessToken: payload.token,
                     user: payload.user,
                 };

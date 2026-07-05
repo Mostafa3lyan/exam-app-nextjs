@@ -19,7 +19,7 @@ export interface myUser {
 }
 
 export interface LoginFields  {
-    email: string;
+    username: string;
     password: string;
 }
 export interface RegisterFields {
