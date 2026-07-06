@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "sonner";
 import { useResendTimer } from "../../../../hooks/use-resend-timer";
 import ForgotPassword from "./forgot-password-form";
-import ResetPassword from "./reset-password";
-import VerifyCode from "./verify-code";
+import ResetLink from "./reset-link";
 
-export type ResetStep = "email" | "otp" | "reset";
+export type ResetSteps = "email" | "link" | "reset";
 
 export default function ResetPasswordFlow() {
-  const [step, setStep] = useState<ResetStep>("email");
+  const [step, setStep] = useState<ResetSteps>("email");
   const [email, setEmail] = useState("");
 
 // Hook 
@@ -22,13 +20,8 @@ export default function ResetPasswordFlow() {
         <ForgotPassword
           email={email}
           onSuccess={(email) => {
-            toast.success(
-              "We have sent an OTP to your email.",
-              { duration: 3000 }
-            );
-
             setEmail(email);
-            setStep("otp");
+            setStep("link");
 
             // Start timer ONLY if not already running
             if (timeLeft === 0) {
@@ -38,22 +31,13 @@ export default function ResetPasswordFlow() {
         />
       )}
 
-      {step === "otp" && (
-        <VerifyCode
+      {step === "link" && (
+        <ResetLink
           email={email}
-          onBack={() => {
-            setStep("email");
-          }}
-          onSuccess={() => {
-            toast.success(
-              "Code verified. You may now reset your password."
-            );
-            setStep("reset");
-          }}
+          setStep={setStep}
         />
       )}
 
-      {step === "reset" && <ResetPassword email={email} />}
     </>
   );
 }

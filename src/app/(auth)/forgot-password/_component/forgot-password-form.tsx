@@ -1,50 +1,29 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { ForgotPasswordSchema } from "@/lib/schemas/forgot-password.schema";
-import { cn } from "@/lib/shadcn/utils";
-import { ForgotPasswordFields, ForgotPasswordProps } from "@/lib/types/auth";
+import EmailForm from "@/components/shared/email-form";
+import { EmailSchema, ForgotPasswordSchemaType} from "@/lib/schemas/forgot-password.schema";
+import { ForgotPasswordProps } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { MoveRight } from "lucide-react";
 import { useForm } from "react-hook-form";
-import CreateOrLogin from "../../../../components/shared/create-login";
-import ErrorComponent from "../../login/_component/error-component";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
+import CreateOrLogin from "@/components/shared/create-login";
 
 
 export default function ForgotPassword({
   email,
   onSuccess,
-  className,
-  ...props
-}: ForgotPasswordProps & React.ComponentPropsWithoutRef<"div">) {
+}: ForgotPasswordProps) {
 
   const { isPending, error, sendResetEmail } = useForgotPassword();
 
-  const form = useForm<ForgotPasswordFields>({
-    resolver: zodResolver(ForgotPasswordSchema),
+  const form = useForm<ForgotPasswordSchemaType>({
+    resolver: zodResolver(EmailSchema),
     defaultValues: {
       email: email ?? "",
     },
   });
 
-  const onSubmit = (values: ForgotPasswordFields) => {
+  const onSubmit = (values: ForgotPasswordSchemaType) => {
     sendResetEmail(values, {
       onSuccess: () => {
         onSuccess(values.email)
@@ -53,69 +32,14 @@ export default function ForgotPassword({
   };
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-      <div className="w-full max-w-md">
-        <div className={cn("flex flex-col gap-6", className)} {...props}>
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-3xl font-inter">
-                Forget Password
-              </CardTitle>
-              <CardDescription>
-                Don&apos;t worry, we will help you recover your account.
-              </CardDescription>
-            </CardHeader>
-
-            <CardContent>
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex flex-col gap-6"
-                  >
-                    {/* EMAIL */}
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="m@example.com"
-                              autoComplete="email"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    {/* API ERROR */}
-                  <ErrorComponent error={error as Error} />
-
-                    {/* SUBMIT */}
-                    <Button
-                      type="submit"
-                      className="w-full"
-                      disabled={
-                        isPending ||
-                        (!form.formState.isValid &&
-                          form.formState.isSubmitted)
-                      }
-                    >
-                      {isPending ? "Sending..." : "Continue"}
-                      <MoveRight />
-                    </Button>
-
-                  <CreateOrLogin head="Don't have an account?" link="/register" tail="Sign up" />
-
-                  </form>
-                </Form>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+    <div className="flex min-h-svh flex-col items-center justify-center  p-6 md:p-10">
+      
+      <EmailForm title="Forgot Password" description="Don't worry, we will help you recover your account." form={form} onSubmit={onSubmit} isPending={isPending} error={error} />
+              <CreateOrLogin
+                head={"Don't have an account?"}
+                link={"/register"}
+                tail={"Create yours"}
+      />
     </div>
   );
 }

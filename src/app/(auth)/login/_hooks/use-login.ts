@@ -15,7 +15,7 @@ export function useLogin() {
             });
 
             if (!res?.ok) {
-                throw new Error(res?.error ?? "Invalid username or password");
+                throw new Error("Invalid username or password");
             }
 
             return res;
@@ -25,6 +25,7 @@ export function useLogin() {
             router.push(callbackUrl);
         },
     });
+console.log(error);
 
     return { isPending, error, login: mutate };
 }

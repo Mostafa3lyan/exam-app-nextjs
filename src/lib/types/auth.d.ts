@@ -43,19 +43,14 @@ export type EmailOtpFields = {
 export type ForgotPasswordProps = {
     email?: string
     onSuccess: (email: string) => void
-    onBack?: () => void
 }
 
 export type VerifyResetFields = {
     resetCode: string;
 };
 
-export type ResetPasswordFields = {
-    newPassword: string;
-    confirmNewPassword: string;
-};
-
 export type ResetPasswordData = {
-    email: string;
+    token: string;
     newPassword: string;
+    confirmPassword: string;
 }

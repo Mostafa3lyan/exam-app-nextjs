@@ -71,8 +71,7 @@ export default function EmailForm({
                   )}
                 />
 
-                {error && <ErrorComponent errorMessage={error?.message} />
-                }
+                {error && <ErrorComponent errorMessage={error?.message} />}
 
                 <Button
                   type="submit"

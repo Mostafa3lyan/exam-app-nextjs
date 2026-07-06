@@ -46,24 +46,6 @@ export function LoginForm() {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              {/* email */}
-              {/* <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-semibold">Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        autoComplete="email"
-                        placeholder="mo123@example.com"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
               {/* Username */}
               <FormField
                 control={form.control}
@@ -93,7 +75,8 @@ export function LoginForm() {
                 </Link>
               </div>
 
-              <ErrorComponent errorMessage={error?.message} />
+              
+              {error && <ErrorComponent errorMessage={error.message} />}
               <Button
                 type="submit"
                 className="w-full"

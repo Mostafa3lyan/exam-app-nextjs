@@ -1,16 +1,20 @@
-"use server"
+"use server";
 import { JSON_HEADER } from "@/lib/constants/api.constant";
-import { ForgotPasswordFields } from "@/lib/types/auth";
+import { ForgotPasswordSchemaType } from "@/lib/schemas/forgot-password.schema";
 
-export async function forgotAction(data: ForgotPasswordFields) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/forgotPassword`, {
-            method: "POST",
+export async function forgotAction(data: ForgotPasswordSchemaType) {
+    const redirectUrl = "http://localhost:3000/reset-password";
+    const res = await fetch(`${process.env.API}/auth/forgot-password`, {
+        method: "POST",
         ...JSON_HEADER,
-            body: JSON.stringify(data),
-        });
+        body: JSON.stringify({ ...data, redirectUrl }),
+    });
 
-        const payload = await res.json();
+    const payload = await res.json();
 
-        return payload;
+    if (!res.ok) {
+        throw new Error(payload?.message ?? "Failed to send reset email");
     }
-    
+
+    return payload;
+}

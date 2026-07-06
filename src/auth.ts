@@ -26,16 +26,16 @@ export const authOptions: NextAuthOptions = {
                     }),
                 });
 
-                const { payload } = await res.json();
+                const data = await res.json();
 
                 if (!res.ok) {
-                    throw new Error(payload.message || "Login failed");
+                    throw new Error(data?.message ?? "Login failed");
                 }
 
                 return {
-                    id: payload.user.id,
-                    accessToken: payload.token,
-                    user: payload.user,
+                    id: data.payload.user.id,
+                    accessToken: data.payload.token,
+                    user: data.payload.user,
                 };
             },
         }),
