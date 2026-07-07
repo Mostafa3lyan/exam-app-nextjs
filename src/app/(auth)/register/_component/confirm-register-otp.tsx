@@ -44,14 +44,6 @@ export default function ConfirmRegisterOtp({
       <div className="w-full max-w-md">
 
         <Card>
-          {/* <Button
-            className="w-5 ml-5"
-            type="button"
-            variant="ghost"
-            onClick={() => setStep("email")}
-          >
-            <MoveLeft className="text-gray-800 size-5" />
-          </Button> */}
           <div className="pt-2 ml-5 w-full">
             <ProgressBar currentStep={2} steps={4} />
           </div>

@@ -1,5 +1,5 @@
-import MainHeader from "@/components/layout/main-header/main-header"
-import { MainSidebar } from "@/components/layout/main-sidebar/main-sidebar"
+import MainHeader from "@/components/layout/main-header"
+import { MainSidebar } from "@/components/layout/main-sidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
 
 
