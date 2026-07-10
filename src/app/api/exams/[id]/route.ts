@@ -5,19 +5,17 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const token = await getMyToken(req);
+    const token = await getMyToken(req);
 
-  const res = await fetch(`${process.env.API}/diplomas/${params.id}`, {
+  const res = await fetch(`${process.env.API}/exams/${params.id}`, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token.accessToken}`,
+        Authorization: `Bearer ${token.accessToken}`,
     },
   });
 
   const data = await res.json();
-
   if (!res.ok) return NextResponse.json(data, { status: res.status });
 
-  const payload = data.payload ?? data;
-  return NextResponse.json("diploma" in payload ? payload.diploma : payload);
+  return NextResponse.json(data);
 }

@@ -5,7 +5,7 @@ import { Diploma } from "@/lib/types/diplomas";
 
 export default function DiplomaCard({ diploma }: { diploma: Diploma }) {
   return (
-    <Link href={`/diplomas/${diploma.id}`}>
+    <Link href={`/${diploma.id}`}>
       <Card className="group relative overflow-hidden border-0 p-0 rounded-none cursor-pointer flex flex-col items-center justify-center">
         {diploma.image && (
           <Image

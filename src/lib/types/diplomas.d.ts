@@ -3,8 +3,10 @@ export interface Diploma {
   title: string;
   description: string;
   image?: string;
+  immutable: boolean;
   createdAt: string;
   updatedAt: string;
+  exams: Exam[];
 }
 
 export interface PaginationMetadata {

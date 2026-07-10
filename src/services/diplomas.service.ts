@@ -4,7 +4,7 @@ import { Diploma, PaginatedResponse } from "@/lib/types/diplomas";
 export const diplomaService = {
   getAll: (page: number, search?: string) =>
     api<PaginatedResponse<Diploma>>("/api/diplomas", {
-      params: { page, search },
+      params: { page, limit: 9, search },
     }),
 
   getById: (id: string) =>
