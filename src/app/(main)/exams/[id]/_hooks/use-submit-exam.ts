@@ -10,7 +10,7 @@ export function useSubmitExam() {
     mutationFn: async (data: SubmitExamPayload) => await submitExamAction(data),
     onSuccess: (data) => {
       toast.success("Exam submitted successfully!");
-      router.push(`/submissions/${data.payload.id}`);
+      router.push(`/submissions/${data.payload.submission.id}`);      
     },
   });
 

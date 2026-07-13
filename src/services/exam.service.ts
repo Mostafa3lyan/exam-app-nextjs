@@ -18,6 +18,7 @@ export const examService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token.accessToken}`,
       },
+      next: { revalidate: 60 * 10 },
     });
 
     const data = await res.json();

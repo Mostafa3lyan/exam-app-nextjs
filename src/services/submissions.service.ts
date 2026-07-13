@@ -1,10 +1,10 @@
 import { getMyToken } from "@/lib/utility/manage-token";
 
-export const questionService = {
-  getByExam: async (examId: string) => {
+export const submissionService = {
+  getById: async (submissionId: string) => {
     const token = await getMyToken();
     const res = await fetch(
-      `${process.env.API}/questions/exam/${examId}`,
+      `${process.env.API}/submissions/${submissionId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -12,12 +12,11 @@ export const questionService = {
             Authorization: `Bearer ${token.accessToken}`,
           }),
         },
-        next: { revalidate: 60 * 60 },
       }
     );
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data?.message ?? "Failed to fetch questions");
+    if (!res.ok) throw new Error(data?.message ?? "Failed to fetch submission");
     return data;
   },
 };

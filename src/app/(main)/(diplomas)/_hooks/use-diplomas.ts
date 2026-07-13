@@ -12,5 +12,7 @@ export function useDiplomas(search?: string) {
         ? lastPage.metadata.page + 1
         : undefined,
     initialPageParam: 1,
+    staleTime: 1000 * 60 * 20,
+    gcTime: 1000 * 60 * 25,
   });
 }
