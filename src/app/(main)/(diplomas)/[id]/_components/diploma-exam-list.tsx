@@ -18,6 +18,7 @@ export default function DiplomaExamList({ id }: { id: string }) {
       <MainHeader
         diplomaId={id}
         diplomaTitle={diplomaExams?.title}
+        backHref = {`/`}
       />
 
       <main className="container mx-auto px-4 py-8">
