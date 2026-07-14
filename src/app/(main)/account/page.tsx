@@ -1,11 +1,13 @@
-import React from 'react';
+import { userService } from "@/services/profile.service";
+import AccountForm from "./_components/account-form";
 
-const Page = () => {
+export default async function Page() {
+
+    const data = await userService.getProfile();
+
     return (
-        <div>
-            
-        </div>
+        <>
+            <AccountForm {...data?.payload?.user} />
+        </>
     );
 }
-
-export default Page;
