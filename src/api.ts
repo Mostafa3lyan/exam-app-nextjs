@@ -1,3 +1,13 @@
+export class ApiError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
 type RequestConfig = RequestInit & {
   params?: Record<string, string | number | undefined>;
 };
@@ -41,7 +51,9 @@ export async function api<T>(
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data?.message ?? "Something went wrong");
+  if (!res.ok) {
+    throw new ApiError(data?.message ?? "Something went wrong", res.status);
+  }
 
   return data;
 }

@@ -1,35 +1,48 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-const authRoutes = new Set([
+// The ONLY routes accessible without authentication.
+// Everything else requires a valid session by default.
+const publicRoutes = new Set([
     "/login",
     "/register",
     "/forgot-password",
+    "/reset-password",
 ]);
 
-const protectedRoutes = new Set([
-    "/",
-    "/profile",
-]);
+// Routes only accessible when logged OUT — redirect away if authenticated.
+// (Subset of publicRoutes; not every public route needs this, e.g. a
+// public marketing page wouldn't redirect a logged-in user away.)
+const authOnlyRoutes = publicRoutes;
+
+function isSafeRelativeUrl(url: string): boolean {
+    return url.startsWith("/") && !url.startsWith("//") && !url.startsWith("/\\");
+}
 
 export default async function middleware(request: NextRequest) {
-    const token = await getToken({ req: request });
-    const { pathname } = request.nextUrl;
+    const { pathname, search } = request.nextUrl;
 
-    const isAuthRoute = authRoutes.has(pathname);
-    const isProtectedRoute = protectedRoutes.has(pathname);
+    const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+    });
+    const isAuthenticated = !!token;
 
-    if (isProtectedRoute && !isAuthRoute) {
-        if (token) return NextResponse.next();
+    const isPublic = publicRoutes.has(pathname);
 
-        const redirectUrl = new URL("/login", request.url);
-        redirectUrl.searchParams.set("callbackUrl", request.url);
-
-        return NextResponse.redirect(redirectUrl);
+    // Logged-in users shouldn't see login/register/etc.
+    if (authOnlyRoutes.has(pathname) && isAuthenticated) {
+        const callbackUrl = request.nextUrl.searchParams.get("callbackUrl");
+        const destination =
+            callbackUrl && isSafeRelativeUrl(callbackUrl) ? callbackUrl : "/";
+        return NextResponse.redirect(new URL(destination, request.url));
     }
 
-    if (isAuthRoute && token) {
-        return NextResponse.redirect(new URL("/", request.url));
+    // Everything NOT explicitly public requires auth — fail closed.
+    if (!isPublic && !isAuthenticated) {
+        const redirectUrl = new URL("/login", request.url);
+        redirectUrl.searchParams.set("callbackUrl", pathname + search);
+        return NextResponse.redirect(redirectUrl);
     }
 
     return NextResponse.next();
@@ -37,13 +50,6 @@ export default async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        /*
-         * Match all request paths except for the ones starting with:
-         * - api (API routes)
-         * - _next/static (static files)
-         * - _next/image (image optimization files)
-         * - favicon.ico (favicon file)
-         */
-        "/((?!api|_next/static|_next/image|favicon.ico).*)",
+        "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js|woff|woff2)$).*)",
     ],
 };
