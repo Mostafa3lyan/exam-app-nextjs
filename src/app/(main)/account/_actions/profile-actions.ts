@@ -66,13 +66,13 @@ export async function deleteAccountAction() {
     headers,
   });
 
-  const data = await res.json();
+  const payload = await res.json();
 
   if (!res.ok) {
-    throw new Error(data?.message ?? "Failed to delete account");
+    throw new Error(payload?.message ?? "Failed to delete account");
   }
 
-  return data;
+  return payload;
 }
 
 // request email

@@ -22,9 +22,9 @@ export default function DeleteAccountDialog({ open, onClose }: DeleteAccountDial
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md p-0 overflow-hidden">
+      <DialogContent className="max-w-lg min-h-[400px] overflow-hidden">
         <div className="p-8 flex flex-col items-center gap-4">
-          <div className="size-20 rounded-full bg-red-100 flex items-center justify-center">
+          <div className="relative size-20 mb-2 rounded-full bg-red-100 flex items-center justify-center after:content-[''] after:absolute after:-z-10 after:size-28 after:rounded-full after:bg-red-50">
             <AlertTriangle className="size-10 text-red-500" />
           </div>
           <h2 className="text-xl font-bold text-red-500 text-center">
@@ -35,16 +35,17 @@ export default function DeleteAccountDialog({ open, onClose }: DeleteAccountDial
           </p>
         </div>
 
-        <div className="flex border-t">
+        <div className="flex border-t border-gray-200 pt-10">
           <Button
-            variant="ghost"
+            variant="secondary"
             className="flex-1 h-14 rounded-none text-base"
             onClick={onClose}
           >
             Cancel
           </Button>
           <Button
-            className="flex-1 h-14 rounded-none text-base bg-red-500 hover:bg-red-600"
+            variant="destructive"
+            className="flex-1 h-14"
             onClick={handleDelete}
             disabled={isPending}
           >

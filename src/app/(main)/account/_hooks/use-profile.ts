@@ -29,7 +29,7 @@ export function useChangePassword() {
 export function useDeleteAccount() {
   return useMutation({
     mutationFn: () => deleteAccountAction(),
-    onSuccess: () => toast.success("Account deleted."),
+    onSuccess: () => toast.success("Account deleted successfully."),
     onError: (error: Error) => toast.error(error.message),
   });
 }
