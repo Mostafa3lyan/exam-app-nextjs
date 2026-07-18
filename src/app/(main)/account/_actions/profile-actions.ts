@@ -1,7 +1,10 @@
 "use server";
 
 import { getMyToken } from "@/lib/utility/manage-token";
+import { revalidateTag } from "next/cache";
+import { OtpFields } from "../_components/change-email-dialog";
 
+// get auth headers
 async function getAuthHeaders() {
   const token = await getMyToken();
 
@@ -11,6 +14,7 @@ async function getAuthHeaders() {
   };
 }
 
+// update profile
 export async function updateProfileAction(body: {
   firstName: string;
   lastName: string;
@@ -29,10 +33,12 @@ export async function updateProfileAction(body: {
   if (!res.ok) {
     throw new Error(data?.message ?? "Failed to update profile");
   }
+  revalidateTag('profile-data');
 
   return data;
 }
 
+// change password
 export async function changePasswordAction(body: {
   currentPassword: string;
   newPassword: string;
@@ -54,6 +60,7 @@ export async function changePasswordAction(body: {
   return data;
 }
 
+// delete account
 export async function deleteAccountAction() {
   const headers = await getAuthHeaders();
 
@@ -71,31 +78,42 @@ export async function deleteAccountAction() {
   return data;
 }
 
-export async function changeEmailAction(body: {
-  type: "request" | "confirm";
-  email?: string;
-  code?: string;
-}) {
+// request email
+export async function requestEmailAction(data: { newEmail: string }) {
   const headers = await getAuthHeaders();
 
-  const { type, ...payload } = body;
-
-  const endpoint =
-    type === "request"
-      ? "/users/email/request"
-      : "/users/email/confirm";
-
-  const res = await fetch(`${process.env.API}${endpoint}`, {
+  const res = await fetch(`${process.env.API}/users/email/request`, {
     method: "POST",
     headers,
-    body: JSON.stringify(payload),
+    body: JSON.stringify(data),
   });
 
-  const data = await res.json();
+  const payload = await res.json();
 
   if (!res.ok) {
-    throw new Error(data?.message ?? "Failed to process email change");
+    throw new Error(payload?.message ?? "Failed to process email change");
   }
 
-  return data;
+  return payload;
+}
+
+// confirm email
+export async function changeEmailAction(data: OtpFields) {
+  const headers = await getAuthHeaders();
+
+  const res = await fetch(`${process.env.API}/users/email/confirm`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(data),
+  });
+
+  const payload = await res.json();
+
+  if (!res.ok) {
+    throw new Error(payload?.message ?? "Failed to process email change");
+  }
+
+  // revalidateTag("profile-data");
+
+  return payload;
 }

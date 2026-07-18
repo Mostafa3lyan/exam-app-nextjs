@@ -12,12 +12,12 @@ import { useSendRegisterOtp } from "../_hooks/use-register-otp";
 import { RegisterSteps } from "./register-flow";
 
 export default function RegisterEmail(
-{setStep}: {setStep: React.Dispatch<React.SetStateAction<RegisterSteps>>}
+  { setStep }: { setStep: React.Dispatch<React.SetStateAction<RegisterSteps>> }
 ) {
   const { email, setEmail } = useEmail();
   const { isPending, error, sendRegisterOtp } = useSendRegisterOtp();
-    const { timeLeft, startTimer } = useResendTimer();
-  
+  const { timeLeft, startTimer } = useResendTimer();
+
 
   const form = useForm<EmailField>({
     resolver: zodResolver(EmailSchema),
@@ -25,30 +25,30 @@ export default function RegisterEmail(
   });
 
   const onSubmit = (values: EmailField) => {
-    if (timeLeft > 0) {
-      setStep("otp");
-      return;
-    }
+  if (email === values.email && timeLeft > 0) {
+    setStep("otp");
+    return;
+  }
     sendRegisterOtp(values, {
       onSuccess: () => {
         setEmail(values.email);
         setStep("otp");
-          startTimer();
-  }
+        startTimer();
+      }
     });
-    
+
   };
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
       <EmailForm
-      title="Create Account"
-      form={form}
-      onSubmit={onSubmit}
-      isPending={isPending}
-      error={error}
-    />
-    <CreateOrLogin head="Already have an account?" link="/login" tail="Login" />
+        title="Create Account"
+        form={form}
+        onSubmit={onSubmit}
+        isPending={isPending}
+        error={error}
+      />
+      <CreateOrLogin head="Already have an account?" link="/login" tail="Login" />
     </div>
   );
 }

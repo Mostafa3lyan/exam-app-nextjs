@@ -1,12 +1,12 @@
 "use client";
 
+import CreateOrLogin from "@/components/shared/create-login";
 import EmailForm from "@/components/shared/email-form";
-import { EmailSchema, ForgotPasswordSchemaType} from "@/lib/schemas/forgot-password.schema";
+import { EmailSchema, EmailSchemaType } from "@/lib/schemas/forgot-password.schema";
 import { ForgotPasswordProps } from "@/lib/types/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useForgotPassword } from "../_hooks/use-forgot-password";
-import CreateOrLogin from "@/components/shared/create-login";
 
 
 export default function ForgotPassword({
@@ -16,14 +16,14 @@ export default function ForgotPassword({
 
   const { isPending, error, sendResetEmail } = useForgotPassword();
 
-  const form = useForm<ForgotPasswordSchemaType>({
+  const form = useForm<EmailSchemaType>({
     resolver: zodResolver(EmailSchema),
     defaultValues: {
       email: email ?? "",
     },
   });
 
-  const onSubmit = (values: ForgotPasswordSchemaType) => {
+  const onSubmit = (values: EmailSchemaType) => {
     sendResetEmail(values, {
       onSuccess: () => {
         onSuccess(values.email)

@@ -18,6 +18,6 @@ export const ResetPasswordSchema = z.object({
     path: ["confirmPassword"]
 });
 
-export type ForgotPasswordSchemaType = z.infer<typeof EmailSchema>;
+export type EmailSchemaType = z.infer<typeof EmailSchema>;
 export type VerifyCodeSchemaType = z.infer<typeof VerifyCodeSchema>;
 export type ResetPasswordSchemaType = z.infer<typeof ResetPasswordSchema>;

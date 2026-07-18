@@ -1,5 +1,5 @@
 "use client";
-import { createContext, ReactNode, useContext, useState, Dispatch, SetStateAction } from "react";
+import { createContext, ReactNode, useContext, useState, Dispatch, SetStateAction, useMemo } from "react";
 
 type EmailContextType = {
   email: string;
@@ -10,12 +10,10 @@ const EmailContext = createContext<EmailContextType>(undefined);
 
 export function EmailProvider({ children }: { children: ReactNode }) {
   const [email, setEmail] = useState("");
+    const value = useMemo(() => ({ email, setEmail }), [email]);
 
-  return (
-    <EmailContext.Provider value={{ email, setEmail }}>
-      {children}
-    </EmailContext.Provider>
-  );
+
+return <EmailContext.Provider value={value}>{children}</EmailContext.Provider>;
 }
 
 export function useEmail() {

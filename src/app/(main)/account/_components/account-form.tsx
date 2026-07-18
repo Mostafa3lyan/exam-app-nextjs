@@ -1,10 +1,10 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,28 +14,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 import { Pencil } from "lucide-react";
-
 import { useUpdateProfile } from "../_hooks/use-profile";
-import DeleteAccountDialog from "./delete-account-dialog";
 import ChangeEmailDialog from "./change-email-dialog";
-
+import DeleteAccountDialog from "./delete-account-dialog";
+import { ProfileFields, ProfileSchema } from "@/lib/schemas/profile.schema";
 import { User } from "@/lib/types/user";
+import ErrorComponent from "@/components/shared/error-component";
+import { PhoneInput } from "@/components/ui/phone-input";
 
-
-const ProfileSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  phone: z.string().optional(),
-});
-
-type ProfileFields = z.infer<typeof ProfileSchema>;
 
 
 export default function AccountForm({ ...user }: User) {
-  const { mutate: updateProfile, isPending } = useUpdateProfile();
+  const { mutate: updateProfile, isPending, error } = useUpdateProfile();
 
   const [showDelete, setShowDelete] = useState(false);
   const [showEmailChange, setShowEmailChange] = useState(false);
@@ -60,7 +52,7 @@ export default function AccountForm({ ...user }: User) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6 max-w-3xl"
+          className="flex flex-col ms-14 gap-6 max-w-3xl"
         >
 
           {/* First + Last name */}
@@ -132,7 +124,7 @@ export default function AccountForm({ ...user }: User) {
 
             <Input
               value={user.email ?? ""}
-              disabled
+              readOnly
             />
           </div>
 
@@ -146,7 +138,7 @@ export default function AccountForm({ ...user }: User) {
                 <FormLabel>Phone</FormLabel>
 
                 <FormControl>
-                  <Input {...field} />
+                  <PhoneInput defaultCountry="EG" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -154,6 +146,7 @@ export default function AccountForm({ ...user }: User) {
             )}
           />
 
+          <ErrorComponent errorMessage={error?.message} />
 
           {/* Actions */}
           <div className="grid grid-cols-2 gap-4">
@@ -171,7 +164,7 @@ export default function AccountForm({ ...user }: User) {
             <Button
               type="submit"
               className="h-14 bg-blue-600 hover:bg-blue-700"
-              disabled={isPending}
+              disabled={isPending || !form.formState.isDirty}
             >
               {isPending ? "Saving..." : "Save Changes"}
             </Button>

@@ -10,7 +10,7 @@ export type RegisterSteps = "email" | "otp" | "register";
 export default function RegisterFlow() {
   const [step, setStep] = useState<RegisterSteps>("email");
 
-// Hook 
+  // Hook 
   // const { startTimer, timeLeft } = useResendTimer();
 
   return (
@@ -24,11 +24,11 @@ export default function RegisterFlow() {
 
       {step === "otp" && (
         <ConfirmRegisterOtp
-                    setStep={setStep}
+          setStep={setStep}
         />
       )}
 
-      {step === "register" && <RegisterForm/>}
+      {step === "register" && <RegisterForm />}
     </>
   );
 }

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/sidebar"
 import { EllipsisVertical, LogOut, UserRound } from "lucide-react"
 import { signOut } from "next-auth/react"
+import Link from "next/link"
 
 export default function NavUser({
   user,
@@ -66,10 +67,12 @@ export default function NavUser({
           >
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+                <Link href="/account">
               <DropdownMenuItem className="cursor-pointer">
-                <UserRound />
-                Account
+                  <UserRound />
+                  Account
               </DropdownMenuItem>
+                </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-destructive cursor-pointer" asChild>

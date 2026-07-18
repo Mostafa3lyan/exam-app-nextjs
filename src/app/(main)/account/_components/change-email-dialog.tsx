@@ -1,136 +1,150 @@
 "use client";
 
-import { useState } from "react";
+import EmailForm from "@/components/shared/email-form";
+import { ProgressBar } from "@/components/shared/prograss-bar";
+import VerifyOtpForm from "@/components/shared/verify-otp-form";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
-import { ChevronRight } from "lucide-react";
-import { useChangeEmail } from "../_hooks/use-profile";
+import { useEmail } from "@/context/email-context";
 import { useResendTimer } from "@/hooks/use-resend-timer";
-import { useQueryClient } from "@tanstack/react-query";
+import { EmailSchema, EmailSchemaType } from "@/lib/schemas/forgot-password.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
+import { useConfirmChangeEmail, useRequestChangeEmail } from "../_hooks/use-profile";
+import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+type EmailStep = "email" | "otp" | "reLogin";
 
-type EmailStep = "email" | "otp";
+const OtpSchema = z.object({
+  code: z.string().length(6, "Code must be 6 digits"),
+});
+export type OtpFields = z.infer<typeof OtpSchema>;
 
 interface ChangeEmailDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
+const stepNumber: Record<EmailStep, number> = {
+  email: 1,
+  otp: 2,
+  reLogin: 3,
+};
+
 export default function ChangeEmailDialog({ open, onClose }: ChangeEmailDialogProps) {
+  const router = useRouter();
+
   const [step, setStep] = useState<EmailStep>("email");
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
 
-  const { mutate: changeEmail, isPending } = useChangeEmail();
+  const { mutate: requestChangeEmail, isPending: isRequesting, error: requestError, reset: resetRequestMutation } = useRequestChangeEmail();
+  const { mutate: confirmChangeEmail, isPending: isConfirming, error: confirmError } = useConfirmChangeEmail();
   const { timeLeft, canResend, startTimer } = useResendTimer();
-  const queryClient = useQueryClient();
+  const { email, setEmail } = useEmail();
 
-  const handleRequestEmail = () => {
-    changeEmail({ type: "request", email }, {
-      onSuccess: () => {
-        setStep("otp");
-        startTimer();
-      },
-    });
+  const emailForm = useForm<EmailSchemaType>({
+    resolver: zodResolver(EmailSchema),
+    defaultValues: { email: "" },
+  });
+
+  const otpForm = useForm<OtpFields>({
+    resolver: zodResolver(OtpSchema),
+    defaultValues: { code: "" },
+  });
+
+  const handleRequestEmail = (data: EmailSchemaType) => {
+    if (email === data.email && timeLeft > 0) {
+      setStep("otp");
+      return;
+    }
+
+    requestChangeEmail(
+      { newEmail: data.email },
+      {
+        onSuccess: () => {
+          setEmail(data.email);
+          setStep("otp");
+          startTimer();
+        },
+      }
+    );
   };
 
-  const handleConfirm = () => {
-    changeEmail({ type: "confirm", code }, {
+const handleConfirmOtp = (values: OtpFields) => {
+  confirmChangeEmail(
+    { code: values.code },
+    {
       onSuccess: () => {
         toast.success("Email changed successfully.");
-        queryClient.invalidateQueries({ queryKey: ["profile"] });
-        onClose();
+        setStep("reLogin");
       },
-    });
-  };
+    }
+  );
+};
 
   const handleClose = () => {
     setStep("email");
-    setEmail("");
-    setCode("");
+    emailForm.reset();
+    resetRequestMutation();
+    otpForm.reset();
     onClose();
+    router.refresh();
   };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md p-0 overflow-hidden">
-        {/* Progress */}
-        <div className="px-6 pt-6">
-          <div className="flex items-center gap-2 mb-4">
-            <div className={`size-4 rotate-45 ${step === "email" ? "bg-blue-600" : "bg-blue-600"}`} />
-            <div className={`flex-1 h-0.5 ${step === "otp" ? "bg-blue-600" : "border-t-2 border-dashed border-blue-300"}`} />
-            <div className={`size-4 rotate-45 border-2 ${step === "otp" ? "bg-blue-600 border-blue-600" : "border-blue-300"}`} />
-          </div>
-
-          <h2 className="text-2xl font-bold mb-1">Change Email</h2>
-
-          {step === "email" ? (
-            <>
-              <p className="text-blue-600 font-semibold mb-4">Enter your new email</p>
-              <div className="flex flex-col gap-2 mb-6">
-                <label className="text-sm font-medium">Email</label>
-                <Input
-                  type="email"
-                  placeholder="user@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <p className="text-blue-600 font-semibold mb-1">Verify OTP</p>
-              <p className="text-sm text-gray-500 mb-4">
-                Please enter the 6-digit code we have sent to: {email}.{" "}
-                <button onClick={() => setStep("email")} className="text-blue-600">
-                  Edit
-                </button>
-              </p>
-
-              <div className="flex justify-center mb-4">
-                <InputOTP
-                  maxLength={6}
-                  value={code}
-                  onChange={(value) => setCode(value.replace(/\D/g, ""))}
-                  inputMode="numeric"
-                >
-                  {[...Array(6)].map((_, i) => (
-                    <InputOTPGroup key={i}>
-                      <InputOTPSlot index={i} />
-                    </InputOTPGroup>
-                  ))}
-                </InputOTP>
-              </div>
-
-              <p className="text-center text-sm text-gray-500 mb-6">
-                {canResend ? (
-                  <button
-                    onClick={() => { changeEmail({ type: "request", email }); startTimer(); }}
-                    className="text-blue-600"
-                  >
-                    Resend code
-                  </button>
-                ) : (
-                  <>You can request another code in: {timeLeft}s</>
-                )}
-              </p>
-            </>
-          )}
+      <DialogContent className="max-w-lg min-h-[400px] overflow-hidden p-6">
+        <div className="px-4 mt-4 w-full">
+          <ProgressBar currentStep={stepNumber[step]} steps={3} />
         </div>
 
-        <Button
-          className="m-4 h-14 text-base bg-blue-600 hover:bg-blue-700"
-          onClick={step === "email" ? handleRequestEmail : handleConfirm}
-          disabled={isPending || (step === "email" ? !email : code.length < 6)}
-        >
-          {step === "email" ? (
-            <>Next <ChevronRight className="size-4 ml-1" /></>
-          ) : (
-            "Verify Code"
-          )}
-        </Button>
+        {step === "email" && (
+          <EmailForm
+            title="Change Email"
+            description="Enter your new email address."
+            form={emailForm}
+            onSubmit={handleRequestEmail}
+            isPending={isRequesting}
+            error={requestError}
+          />
+        )}
+
+        {step === "otp" && (
+          <VerifyOtpForm
+            target={email}
+            onEdit={() => setStep("email")}
+            form={otpForm}
+            onSubmit={handleConfirmOtp}
+            isPending={isConfirming}
+            error={confirmError}
+            canResend={canResend}
+            timeLeft={timeLeft}
+            onResend={() => {
+              requestChangeEmail({ newEmail: email });
+              startTimer();
+            }}
+          />
+        )}
+
+        {step === "reLogin" && (
+          <div className="w-full max-w-md">
+            <div className="flex flex-col items-center justify-start gap-3">
+              <p className="text-center text-sm text-muted-foreground px-4">
+                Please logout and login again to apply the changes.
+              </p>
+              <Button
+                className=" w-3/6"
+                onClick={() => signOut({ callbackUrl: "/login" })}
+              >
+                <LogOut className="size-4 rotate-180" />
+                Logout
+              </Button>
+            </div>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

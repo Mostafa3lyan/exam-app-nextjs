@@ -9,7 +9,7 @@ export const userService = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token.accessToken}`,
       },
-      next: { revalidate: 0 },
+      next: { tags: ['profile-data'] }
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data?.message ?? "Failed to fetch profile");

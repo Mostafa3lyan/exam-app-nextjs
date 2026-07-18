@@ -15,7 +15,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       : "Account";
 
   return (
-    <>
+    <div >
       <MainHeader
         rootLabel="Account Settings"
         rootHref="/account"
@@ -31,6 +31,6 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
           {children}
         </div>
       </div>
-    </>
+    </div>
   );
 }

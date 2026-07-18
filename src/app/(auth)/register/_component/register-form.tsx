@@ -28,7 +28,7 @@ import { ProgressBar } from "@/components/shared/prograss-bar";
 
 export function RegisterForm() {
   const { isPending, error, register } = useRegister();
-  const {email} = useEmail();
+  const { email } = useEmail();
 
   const form = useForm<RegisterFields>({
     resolver: zodResolver(RegisterSchema),
@@ -57,11 +57,13 @@ export function RegisterForm() {
   };
 
   return (
-    <div className="flex min-h-svh items-center justify-center">
-      <Card className="w-full max-w-md">
-                  <div className="pt-2 ml-5 w-full">
-                    <ProgressBar currentStep={3} steps={4} />
-                  </div>
+    <div className="flex min-h-svh items-center justify-center p-6 md:p-10">
+
+
+      <Card >
+        <div className="px-3 w-full">
+          <ProgressBar currentStep={3} steps={3} />
+        </div>
         <CardHeader>
           <CardTitle className="text-3xl font-inter">Create Account</CardTitle>
         </CardHeader>
