@@ -1,8 +1,8 @@
 "use server";
 
+import { ChangePasswordFields, OtpFields } from "@/lib/schemas/profile.schema";
 import { getMyToken } from "@/lib/utility/manage-token";
 import { revalidateTag } from "next/cache";
-import { OtpFields } from "../_components/change-email-dialog";
 
 // get auth headers
 async function getAuthHeaders() {
@@ -39,25 +39,22 @@ export async function updateProfileAction(body: {
 }
 
 // change password
-export async function changePasswordAction(body: {
-  currentPassword: string;
-  newPassword: string;
-}) {
+export async function changePasswordAction(data: ChangePasswordFields) {
   const headers = await getAuthHeaders();
 
   const res = await fetch(`${process.env.API}/users/change-password`, {
     method: "POST",
     headers,
-    body: JSON.stringify(body),
+    body: JSON.stringify(data),
   });
 
-  const data = await res.json();
+  const payload = await res.json();
 
   if (!res.ok) {
-    throw new Error(data?.message ?? "Failed to change password");
+    throw new Error(payload?.message ?? "Failed to change password");
   }
 
-  return data;
+  return payload;
 }
 
 // delete account

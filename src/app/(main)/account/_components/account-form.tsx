@@ -163,7 +163,7 @@ export default function AccountForm({ ...user }: User) {
 
             <Button
               type="submit"
-              className="h-14 bg-blue-600 hover:bg-blue-700"
+              className="h-14"
               disabled={isPending || !form.formState.isDirty}
             >
               {isPending ? "Saving..." : "Save Changes"}

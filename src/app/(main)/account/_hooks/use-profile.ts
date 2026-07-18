@@ -20,10 +20,9 @@ export function useUpdateProfile() {
 
 export function useChangePassword() {
   return useMutation({
-    mutationFn: (data: { currentPassword: string; newPassword: string }) =>
+    mutationFn: (data: { currentPassword: string; newPassword: string; confirmPassword: string }) =>
       changePasswordAction(data),
-    onSuccess: () => toast.success("Password updated successfully."),
-    onError: (error: Error) => toast.error(error.message),
+    onSuccess: () => toast.success("Password changed successfully."),
   });
 }
 
@@ -39,6 +38,7 @@ export function useRequestChangeEmail() {
   return useMutation({
     mutationFn: (data: { newEmail: string }) =>
       requestEmailAction(data),
+    onSuccess: () => toast.success("OTP sent successfully."),
   });
 }
 
@@ -46,5 +46,6 @@ export function useConfirmChangeEmail() {
   return useMutation({
     mutationFn: (data: { code: string }) =>
       changeEmailAction(data),
+    onSuccess: () => toast.success("Email changed successfully."),
   });
 }

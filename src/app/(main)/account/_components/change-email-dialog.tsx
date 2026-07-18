@@ -3,26 +3,20 @@
 import EmailForm from "@/components/shared/email-form";
 import { ProgressBar } from "@/components/shared/prograss-bar";
 import VerifyOtpForm from "@/components/shared/verify-otp-form";
+import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useEmail } from "@/context/email-context";
 import { useResendTimer } from "@/hooks/use-resend-timer";
 import { EmailSchema, EmailSchemaType } from "@/lib/schemas/forgot-password.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
 import { useConfirmChangeEmail, useRequestChangeEmail } from "../_hooks/use-profile";
-import { Button } from "@/components/ui/button";
-import { signOut } from "next-auth/react";
-import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { OtpFields, OtpSchema } from "@/lib/schemas/profile.schema";
 type EmailStep = "email" | "otp" | "reLogin";
-
-const OtpSchema = z.object({
-  code: z.string().length(6, "Code must be 6 digits"),
-});
-export type OtpFields = z.infer<typeof OtpSchema>;
 
 interface ChangeEmailDialogProps {
   open: boolean;
@@ -78,7 +72,6 @@ const handleConfirmOtp = (values: OtpFields) => {
     { code: values.code },
     {
       onSuccess: () => {
-        toast.success("Email changed successfully.");
         setStep("reLogin");
       },
     }
