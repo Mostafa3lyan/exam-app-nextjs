@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import { forgotAction } from "../_actions/forgot.action";
-import { ForgotPasswordSchemaType } from "@/lib/schemas/forgot-password.schema";
+import { EmailSchemaType } from "@/lib/schemas/forgot-password.schema";
 import { toast } from "sonner";
 
 
 export function useForgotPassword() {
     const { isPending, error, mutate } = useMutation({
-        mutationFn: async (data: ForgotPasswordSchemaType) => {
+        mutationFn: async (data: EmailSchemaType) => {
             return await forgotAction(data);
         },
 
