@@ -30,7 +30,7 @@ export default function SubmissionResult({
 
       <div className="container mx-auto px-4 py-8">
         {/* Progress bar — full since exam is done */}
-        <div className="flex items-center justify-between mb-1">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-1">
           <span className="text-sm text-gray-600 font-mono">
             {submission.examTitle}
           </span>
@@ -46,9 +46,9 @@ export default function SubmissionResult({
 
         <h2 className="text-2xl font-bold text-blue-600 mb-6">Results:</h2>
 
-        <div className="flex gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Score chart */}
-          <div className="w-72 flex-shrink-0 bg-blue-50 p-6 flex items-center justify-center">
+          <div className="w-full lg:w-72 lg:flex-shrink-0 bg-blue-50 p-6 flex items-center justify-center">
             <ScoreChart
               correct={submission.correctAnswers}
               wrong={submission.wrongAnswers}
@@ -64,7 +64,7 @@ export default function SubmissionResult({
         </div>
 
         {/* Actions */}
-        <div className="flex gap-2 mt-8">
+        <div className="flex gap-2 mt-8 flex-col sm:flex-row">
           <Button
             variant="secondary"
             className="flex-1 h-14 text-base"

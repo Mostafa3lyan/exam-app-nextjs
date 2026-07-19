@@ -23,7 +23,7 @@ export default memo(function QuestionNavigation({
   const isLast = currentIndex === total - 1;
 
   return (
-    <div className="flex gap-2 my-8">
+    <div className="flex gap-2 my-8 flex-col sm:flex-row">
       <Button
         variant="secondary"
         className="flex-1 h-14 text-base"
@@ -31,7 +31,7 @@ export default memo(function QuestionNavigation({
         disabled={isFirst}
       >
         <ChevronLeft className="size-4 mr-1" />
-        Previous
+        <span className="hidden sm:inline">Previous</span>
       </Button>
 
       {isLast ? (
@@ -47,7 +47,7 @@ export default memo(function QuestionNavigation({
           className="flex-1 h-14 text-base bg-blue-600 hover:bg-blue-700"
           onClick={onNext}
         >
-          Next
+          <span className="hidden sm:inline">Next</span>
           <ChevronRight className="size-4 ml-1" />
         </Button>
       )}

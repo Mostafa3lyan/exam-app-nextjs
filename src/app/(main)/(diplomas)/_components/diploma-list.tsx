@@ -6,7 +6,7 @@ import DiplomaCard from "./diploma-card";
 import DiplomaCardSkeleton from "./diplomas-card-skeleton";
 
 const SkeletonGrid = () => (
-  <div className="grid grid-cols-3 gap-2.5">
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
     {Array.from({ length: 6 }).map((_, i) => (
       <DiplomaCardSkeleton key={i} />
     ))}
@@ -54,7 +54,7 @@ export default function DiplomaList() {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
         {diplomas.map((diploma) => (
           <DiplomaCard key={diploma.id} diploma={diploma} />
         ))}

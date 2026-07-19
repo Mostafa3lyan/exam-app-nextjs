@@ -58,14 +58,14 @@ const handleSubmit = useCallback(() => {
         backHref={`/${exam.diplomaId}`}
       />
 
-      <div className="container mx-auto px-4 py-8 h-screen">
-        <div className="flex items-center gap-4 mb-2">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4 mb-2">
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-sm text-gray-600 font-mono">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 mb-1">
+              <span className="text-sm text-gray-600 font-mono truncate">
                 {exam.diploma?.title} - {exam.title}
               </span>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 whitespace-nowrap">
                 Question{" "}
                 <strong className="text-primary font-semibold">
                   {currentIndex + 1}
@@ -81,7 +81,9 @@ const handleSubmit = useCallback(() => {
             </div>
           </div>
 
-          <CircularTimer examId={exam.id} durationMinutes={exam.duration} onTimeUp={handleSubmit} />
+          <div className="flex-shrink-0">
+            <CircularTimer examId={exam.id} durationMinutes={exam.duration} onTimeUp={handleSubmit} />
+          </div>
         </div>
 
         <div className="mt-8">
