@@ -89,7 +89,7 @@ export default function MainHeader({
                     ) : null}
                 </div>
 
-                <div className="flex-1 md:hidden">
+                <div className="flex-1 md:hidden min-w-0">
                     <div className="text-sm font-medium text-gray-600 truncate">
                         {title}
                     </div>
@@ -97,7 +97,7 @@ export default function MainHeader({
             </div>
 
             <div className="mt-4 md:mt-5">
-                <Breadcrumb className="hidden md:block">
+                <Breadcrumb className="hidden md:block px-4">
                     <BreadcrumbList>
                         <BreadcrumbItem>
                             <BreadcrumbLink asChild>
@@ -152,20 +152,20 @@ export default function MainHeader({
                     </BreadcrumbList>
                 </Breadcrumb>
 
-                <div className="flex items-stretch gap-2 mt-2">
+                <div className="flex items-stretch gap-2 mt-2 px-1 md:px-4 w-full min-w-0">
                     {backHref && (
                         <Link
                             href={backHref}
-                            className="flex items-center justify-center w-12 border-2 border-primary text-primary hover:bg-primary/10 transition-colors shrink-0"
+                            className="flex items-center justify-center w-10 sm:w-12 border-2 border-primary text-primary hover:bg-primary/10 transition-colors shrink-0"
                         >
-                            <ChevronLeft className="size-5" />
+                            <ChevronLeft className="size-4 sm:size-5" />
                         </Link>
                     )}
 
-                    <div className="flex-1 bg-primary min-h-20 p-4 flex items-center">
-                        <Icon className="text-white size-10 me-4" />
+                    <div className="flex-1 bg-primary min-h-16 sm:min-h-20 p-3 sm:p-4 flex items-center min-w-0 overflow-hidden">
+                        <Icon className="text-white size-6 sm:size-8 md:size-10 me-2 sm:me-4 shrink-0" />
 
-                        <h1 className="text-white text-xl md:text-3xl font-semibold truncate">
+                        <h1 className="text-white text-base sm:text-xl md:text-3xl font-semibold line-clamp-2 min-w-0 break-words">
                             {title}
                         </h1>
                     </div>

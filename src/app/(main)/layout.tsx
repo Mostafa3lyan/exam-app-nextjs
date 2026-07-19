@@ -8,7 +8,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
     <SidebarProvider>
       <div className="min-h-screen flex w-full">
         <MainSidebar />
-        <main className="m-4 w-full">
+        <main className="mx-auto w-[calc(100%-2rem)] p-4">
           {children}
         </main>
       </div>
