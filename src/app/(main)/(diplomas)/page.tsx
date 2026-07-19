@@ -1,6 +1,8 @@
 import MainHeader from "@/components/layout/main-header";
 import DiplomaList from "./_components/diploma-list";
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <>
