@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function DiplomaExamCard({ exam }: { exam: Exam }) {
   return (
     <Link href={`/exams/${exam.id}`}>
-      <div className="group relative flex gap-6 p-6 bg-blue-50 border-2 border-transparent hover:border-dashed hover:border-blue-300 transition-all duration-300">
+      <div className="group relative flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-6 bg-blue-50 border-2 border-transparent hover:border-dashed hover:border-blue-300 transition-all duration-300">
         {/* Image */}
         <div className="flex-shrink-0">
           <div className="w-24 h-24 flex items-center justify-center bg-blue-100 border-2 border-blue-300 rounded-lg overflow-hidden">
@@ -23,22 +23,22 @@ export default function DiplomaExamCard({ exam }: { exam: Exam }) {
         {/* Content */}
         <div className="flex-1 min-w-0">
           {/* Title + Metadata */}
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="text-2xl font-bold text-blue-600">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-2">
+            <h3 className="text-lg sm:text-2xl font-bold text-blue-600">
               {exam.title}
             </h3>
 
-            <div className="flex items-center gap-3 text-sm font-medium text-gray-700 flex-shrink-0">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs sm:text-sm font-medium text-gray-700 flex-shrink-0">
               <span className="flex items-center gap-1">
                 <HelpCircle className="w-4 h-4 text-gray-500" />
                 {exam.questionsCount} Questions
               </span>
 
-              <span className="text-gray-400">|</span>
+              <span className="hidden sm:inline text-gray-400">|</span>
 
               <span className="flex items-center gap-1">
                 <Clock className="w-4 h-4 text-gray-500" />
-                {exam.duration} minutes
+                {exam.duration} min
               </span>
             </div>
           </div>
@@ -50,8 +50,8 @@ export default function DiplomaExamCard({ exam }: { exam: Exam }) {
         </div>
 
         {/* START Button */}
-        <div className="absolute right-6 bottom-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <div className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 flex items-center gap-2 shadow-md transition-colors">
+        <div className="absolute right-4 bottom-4 sm:right-6 sm:bottom-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 sm:px-6 py-2 flex items-center gap-2 shadow-md transition-colors text-sm sm:text-base">
             START
             <ArrowRight className="w-4 h-4" />
           </div>

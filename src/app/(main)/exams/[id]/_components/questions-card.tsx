@@ -25,7 +25,7 @@ export default function QuestionCard({
             <button
               key={answer.id}
               onClick={() => onSelectAnswer(answer.id)}
-              className={`flex items-center gap-3 p-4 rounded-lg border text-left transition-all ${
+              className={`flex items-start sm:items-center gap-3 p-4 rounded-lg border text-left transition-all ${
                 isSelected
                   ? "border-primary bg-blue-50"
                   : "border-gray-200 bg-gray-50 hover:bg-gray-100"

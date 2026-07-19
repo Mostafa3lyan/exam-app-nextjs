@@ -6,14 +6,12 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex justify-start min-h-screen">
-      {/* Sidebar*/}
-      <aside className="w-1/2 ">
+    <div className="flex min-h-screen flex-col-reverse md:flex-row">
+      <aside className="w-full md:w-1/2">
         <AuthSidebar />
       </aside>
 
-      {/* Main Content*/}
-      <main className="w-1/2  ">
+      <main className="w-full md:w-1/2">
         {children}
       </main>
     </div>

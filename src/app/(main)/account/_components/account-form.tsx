@@ -52,11 +52,11 @@ export default function AccountForm({ ...user }: User) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col ms-14 gap-6 max-w-3xl"
+          className="flex flex-col ms-2 sm:ms-14 gap-6 max-w-3xl px-4 sm:px-0"
         >
 
           {/* First + Last name */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="firstName"
@@ -107,7 +107,7 @@ export default function AccountForm({ ...user }: User) {
 
           {/* Email readonly */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <label className="text-sm font-medium">
                 Email
               </label>
@@ -115,7 +115,7 @@ export default function AccountForm({ ...user }: User) {
               <button
                 type="button"
                 onClick={() => setShowEmailChange(true)}
-                className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+                className="flex items-center gap-1 text-sm text-blue-600 hover:underline w-fit"
               >
                 <Pencil className="size-3" />
                 Change
@@ -149,7 +149,7 @@ export default function AccountForm({ ...user }: User) {
           <ErrorComponent errorMessage={error?.message} />
 
           {/* Actions */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
             <Button
               type="button"
