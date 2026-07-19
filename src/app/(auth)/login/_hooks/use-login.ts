@@ -25,7 +25,6 @@ export function useLogin() {
             router.push(callbackUrl);
         },
     });
-console.log(error);
 
     return { isPending, error, login: mutate };
 }
